@@ -19,8 +19,7 @@ const auth = async (req, res, next) => {
             throw Error
         }
     } catch {
-
-        res.status(404).json({ success: false, text: 'Log in first please' })
+        res.status(401).send('no user exists in db to update');
     }
 
 }

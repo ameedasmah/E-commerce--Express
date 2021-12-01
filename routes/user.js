@@ -7,12 +7,16 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/auth')
 
 router.get('/auth', auth, (req, res) => {
+    console.log(res.body)
     res.json({
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
-        success: true
+        success: true,
+        role: req.user.role
+
     })
+
 })
 
 router.post('/signup', async (req, res) => {
@@ -55,7 +59,9 @@ router.post('/login', async (req, res) => {
                 token,
                 userId: user._id
             })
+            return
         }
+        res.status(404).json({ success: false })
     } catch {
         res.status(404).json({ success: false })
     }

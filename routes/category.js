@@ -18,9 +18,10 @@ router.post('/create', async (req, res) => {
             imageUrl,
             description,
         })
+        console.log(req.body)
         await category.save()
         res.status(201).json({
-            success: true
+            name, imageUrl, description
         })
 
     } catch (err) {

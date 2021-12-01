@@ -3,21 +3,24 @@ const router = express.Router()
 const Product = require('../models/Product')
 
 router.post('/create', async (req, res) => {
-    const { categoryID, name, imageUrl, description, price, quantity, images } = req.body
+    const { subCategoryID, name, imageUrl, description, price, quantity, images, warehouse, deliveryTime } = req.body
     try {
         let product = new Product({
-            categoryID,
+            subCategoryID,
             name,
             imageUrl,
             description,
             price,
             quantity,
             images,
+            warehouse,
+            deliveryTime
         })
+        console.log(req.body)
         await product.save()
         res.status(201).json({
-            success : true,
-            "Request Changes" : true
+            success: true,
+            product
         })
 
     } catch (err) {
@@ -26,14 +29,13 @@ router.post('/create', async (req, res) => {
 })
 
 router.get('/getProducts', async (req, res) => {
-    const categoryID = req.query.categoryID
-
-    Product.find({ 'categoryID': categoryID })
+    const SubCategoryID = req.body.subCategoryID
+    console.log(SubCategoryID)
+    Product.find({ 'SubCategoryID': SubCategoryID })
         .exec((err, products) => {
             if (err) return res.status(401).json({ success: false })
             res.status(200).json({ success: true, products })
         })
-
 })
 
 router.get('/:id', async (req, res) => {
